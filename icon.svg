@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Radial Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#222b28" />
+      <stop offset="70%" stop-color="#141917" />
+      <stop offset="100%" stop-color="#0b0e0d" />
+    </radialGradient>
+
+    <!-- Stone Gradient -->
+    <radialGradient id="stoneGrad" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#4a5752" />
+      <stop offset="45%" stop-color="#242e2a" />
+      <stop offset="100%" stop-color="#0d1411" />
+    </radialGradient>
+
+    <!-- Jade / Gold Accent Gradient -->
+    <linearGradient id="jadeGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a4f5cf" />
+      <stop offset="50%" stop-color="#48bb78" />
+      <stop offset="100%" stop-color="#276749" />
+    </linearGradient>
+
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#a16207" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.65" />
+    </filter>
+
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+
+  <!-- Outer Zen Concentric Rings -->
+  <circle cx="256" cy="256" r="224" fill="none" stroke="url(#jadeGold)" stroke-width="3" stroke-opacity="0.3" stroke-dasharray="8 12" />
+  <circle cx="256" cy="256" r="212" fill="none" stroke="url(#jadeGold)" stroke-width="1.5" stroke-opacity="0.5" />
+
+  <!-- Woven Zen Loop Track -->
+  <path d="M 120 120 L 392 120 A 40 40 0 0 1 432 160 L 432 352 A 40 40 0 0 1 392 392 L 160 392 A 40 40 0 0 1 120 352 Z" 
+        fill="none" stroke="url(#goldAccent)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+  <path d="M 120 120 L 392 120 A 40 40 0 0 1 432 160 L 432 352 A 40 40 0 0 1 392 392 L 160 392 A 40 40 0 0 1 120 352 Z" 
+        fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" />
+
+  <!-- Black Stone Obstacle at (TR/Center) -->
+  <circle cx="340" cy="260" r="44" fill="url(#stoneGrad)" stroke="url(#goldAccent)" stroke-width="3" filter="url(#shadow)" />
+
+  <!-- Arrow Clue Lantern at (BL) -->
+  <rect x="156" y="220" width="80" height="80" rx="16" fill="#1b2420" stroke="url(#jadeGold)" stroke-width="3.5" filter="url(#shadow)" />
+  <!-- Arrow Graphic pointing Right -->
+  <path d="M 178 260 L 214 260 M 204 250 L 216 260 L 204 270" fill="none" stroke="url(#jadeGold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Clue Number "1" -->
+  <text x="196" y="292" font-family="'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="900" fill="#a4f5cf" text-anchor="middle">1</text>
+
+  <!-- Japanese Kanji "矢" (Arrow) / "輪" (Loop) Watermark in Center -->
+  <g fill="url(#goldAccent)" filter="url(#glow)" opacity="0.35">
+    <text x="256" y="278" font-family="'Noto Serif JP', 'Yu Mincho', serif, sans-serif" font-size="96" font-weight="900" text-anchor="middle">矢</text>
+  </g>
+
+  <!-- Bottom Title Pill -->
+  <rect x="196" y="416" width="120" height="34" rx="17" fill="#17221d" stroke="url(#goldAccent)" stroke-width="2" />
+  <text x="256" y="440" font-family="'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="bold" fill="#fef08a" text-anchor="middle">YAJILIN</text>
+</svg>

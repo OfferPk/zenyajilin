@@ -1,0 +1,18 @@
+{
+  "name": "ZenYajilin - Arrow Loop Logic",
+  "short_name": "ZenYajilin",
+  "description": "Serene Japanese Yajilin (ヤジリン / Yajirin) offline logic puzzle. Weave a single unbroken loop guided by arrow clues.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#141917",
+  "theme_color": "#141917",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
