@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!-- ZenYajilin: Serene Japanese Arrow Loop Logic (Yajilin / ヤジリン / Yajirin) -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ZenYajilin - Arrow Loop Logic</title>
+  <meta name="description" content="Serene Japanese Yajilin (ヤジリン / Yajirin) offline logic puzzle. Weave an unbroken loop guided by arrow clues.">
+  <meta name="theme-color" content="#121715">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <span class="brand-icon">矢</span>
+        <div class="brand-text">
+          <h1 class="brand-title">ZenYajilin</h1>
+          <span class="brand-subtitle">ヤジリン • Arrow Loop</span>
+        </div>
+      </div>
+      <div class="header-controls">
+        <button id="btn-sound" class="icon-btn" title="Toggle Sound (M)" aria-label="Toggle Sound">🔊</button>
+        <button id="btn-rules" class="icon-btn" title="How to Play" aria-label="Rules and Instructions">❓</button>
+        <button id="btn-levels" class="icon-btn" title="Select Level" aria-label="Select Level">☰</button>
+      </div>
+    </header>
+
+    <!-- Level Bar -->
+    <div class="level-bar">
+      <div class="level-meta">
+        <span id="pack-name" class="pack-name">Morning Garden</span>
+        <span id="level-name" class="level-name">Level 1 (6×6)</span>
+      </div>
+      <div class="level-stats">
+        <div class="stat-item" title="Arrow clues satisfied">
+          <span class="stat-label">Clues</span>
+          <span id="stat-clues" class="stat-value">0 / 0</span>
+        </div>
+        <div class="stat-item" title="Black stones placed">
+          <span class="stat-label">Stones</span>
+          <span id="stat-stones" class="stat-value">0</span>
+        </div>
+        <div class="stat-item" title="Elapsed time">
+          <span class="stat-label">Time</span>
+          <span id="stat-time" class="stat-value">00:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Game Board Container -->
+    <main class="board-area">
+      <div class="board-card">
+        <div id="grid-container" class="grid-container">
+          <!-- Interactive SVG Board rendered by app.js -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Mode Selector & Controls Toolbar -->
+    <div class="controls-toolbar">
+      <div class="tool-modes">
+        <button id="tool-loop" class="tool-btn active" title="Loop Mode: Drag between cells to draw or remove loop segments">
+          <span class="tool-icon">➰</span>
+          <span class="tool-text">Loop</span>
+        </button>
+        <button id="tool-stone" class="tool-btn" title="Stone Mode: Tap to place or remove Black Stone">
+          <span class="tool-icon stone-icon">●</span>
+          <span class="tool-text">Stone</span>
+        </button>
+        <button id="tool-dot" class="tool-btn" title="Dot Mode: Tap to mark cell as definite open path">
+          <span class="tool-icon dot-icon">·</span>
+          <span class="tool-text">Dot</span>
+        </button>
+      </div>
+
+      <div class="action-buttons">
+        <button id="btn-undo" class="action-btn" title="Undo Move (Ctrl+Z)" aria-label="Undo">
+          <span class="action-icon">↩</span>
+          <span class="action-label">Undo</span>
+        </button>
+        <button id="btn-hint" class="action-btn" title="Deductive Hint (H)" aria-label="Hint">
+          <span class="action-icon">💡</span>
+          <span class="action-label">Hint</span>
+        </button>
+        <button id="btn-reset" class="action-btn" title="Reset Level (R)" aria-label="Reset">
+          <span class="action-icon">↺</span>
+          <span class="action-label">Reset</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Hint / Message Banner -->
+    <div id="hint-banner" class="hint-banner hidden" role="status" aria-live="polite">
+      <span class="hint-icon">💡</span>
+      <span id="hint-text" class="hint-text"></span>
+      <button id="btn-close-hint" class="hint-close" aria-label="Close hint">×</button>
+    </div>
+  </div>
+
+  <!-- How to Play Modal -->
+  <div id="rules-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="rules-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="rules-title" class="modal-title">Rules of Yajilin (ヤジリン)</h2>
+        <button id="btn-close-rules" class="modal-close-btn" aria-label="Close modal">×</button>
+      </div>
+      <div class="modal-body rules-content">
+        <div class="rule-section">
+          <h3>🌸 The Goal</h3>
+          <p>Weave a single unbroken, non-intersecting <strong>closed loop</strong> through the grid cells while discovering the locations of hidden <strong>black stones</strong>.</p>
+        </div>
+
+        <div class="rule-section">
+          <h3>1. Arrow Clue Lanterns</h3>
+          <p>Clue tiles contain an arrow and a number (e.g. <code>1 →</code>). The number indicates the <strong>exact count of black stones</strong> in that direction extending to the grid border. Clue tiles are fixed obstacles and never visited by the loop.</p>
+        </div>
+
+        <div class="rule-section">
+          <h3>2. No Adjacent Black Stones</h3>
+          <p>Two black stones <strong>never touch orthogonally</strong> (they cannot share an edge). Diagonal touching is permitted.</p>
+        </div>
+
+        <div class="rule-section">
+          <h3>3. Single Continuous Closed Loop</h3>
+          <p>Every cell that is <strong>neither an arrow clue nor a black stone</strong> must be visited by <strong>exactly one closed loop</strong>. The loop cannot branch, self-cross, or form separate mini-loops.</p>
+        </div>
+
+        <div class="rule-section">
+          <h3>💡 Controls & Tips</h3>
+          <p>• In <strong>Loop Mode</strong>, tap or drag between adjacent cells to connect loop tracks.</p>
+          <p>• In <strong>Stone Mode</strong>, tap a cell to place a black stone (●).</p>
+          <p>• In <strong>Dot Mode</strong>, tap a cell to mark it as confirmed open path (·).</p>
+          <p>• Arrow clue tiles turn <span class="rule-highlight">Green</span> when satisfied!</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-start-playing" class="btn-primary">Understand & Play</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Level Select Modal -->
+  <div id="levels-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="levels-title">
+    <div class="modal-card levels-card">
+      <div class="modal-header">
+        <h2 id="levels-title" class="modal-title">Select Chamber</h2>
+        <button id="btn-close-levels" class="modal-close-btn" aria-label="Close modal">×</button>
+      </div>
+      <!-- Pack Tabs -->
+      <div id="pack-tabs" class="pack-tabs">
+        <!-- Injected by app.js -->
+      </div>
+      <div class="modal-body levels-grid" id="levels-grid">
+        <!-- Injected by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Victory Modal -->
+  <div id="victory-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="victory-title">
+    <div class="modal-card victory-card">
+      <div class="victory-icon">🌸</div>
+      <h2 id="victory-title" class="victory-title">Garden Harmonized!</h2>
+      <p id="victory-subtitle" class="victory-subtitle">The loop flows unbroken in perfect peace.</p>
+      <div class="victory-stats">
+        <div class="vstat">
+          <span class="vstat-label">Time</span>
+          <span id="vstat-time" class="vstat-val">01:24</span>
+        </div>
+        <div class="vstat">
+          <span class="vstat-label">Moves</span>
+          <span id="vstat-moves" class="vstat-val">22</span>
+        </div>
+        <div class="vstat">
+          <span class="vstat-label">Stones</span>
+          <span id="vstat-stones" class="vstat-val">3</span>
+        </div>
+      </div>
+      <div class="victory-actions">
+        <button id="btn-next-level" class="btn-primary">Next Chamber ➔</button>
+        <button id="btn-replay" class="btn-secondary">Replay ↺</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="audio.js"></script>
+  <script src="yajilin-engine.js"></script>
+  <script src="levels.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

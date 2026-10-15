@@ -1,8 +1,8 @@
 node_modules/
 dist/
+www/
+android/
 .DS_Store
 Thumbs.db
-android/
-.gradle/
-build/
 *.log
+.env
