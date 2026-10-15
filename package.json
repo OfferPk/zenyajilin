@@ -1,0 +1,29 @@
+{
+  "name": "zenyajilin",
+  "version": "1.0.0",
+  "description": "ZenYajilin: Serene Japanese Arrow Loop Logic (Yajilin / ヤジリン / Yajirin)",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "node --test test/engine.test.js",
+    "build": "node scripts/build.js"
+  },
+  "keywords": [
+    "yajilin",
+    "yajirin",
+    "nikoli",
+    "logic-puzzle",
+    "zen",
+    "loop-puzzle",
+    "arrow-puzzle",
+    "pwa",
+    "capacitor",
+    "offline-game"
+  ],
+  "author": "OfferPk",
+  "license": "MIT",
+  "devDependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0"
+  }
+}
